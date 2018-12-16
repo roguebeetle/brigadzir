@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">brigadzir V0.1 Beta</string>
-    <string name="TextView">Хуита</string>
+    <string name="textView">Хуита</string>
     <string name="button">Button</string>
 </resources>
