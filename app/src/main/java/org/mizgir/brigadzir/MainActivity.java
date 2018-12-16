@@ -1,17 +1,16 @@
 package org.mizgir.brigadzir;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.style.DynamicDrawableSpan;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -19,20 +18,22 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     //Объявим переменные компонентов
-    Button Button;
+    Button button;
     TextView textView;
     EditText editText;
     String SearchText;
+
 
     //Переменная для работы с БД
     private DatabaseHelper mDBHelper;
     private SQLiteDatabase mDb;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.d("brigadzir", "запуск");
         mDBHelper = new DatabaseHelper(this);
 
         try {
@@ -48,23 +49,35 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Найдем компоненты в XML разметке
-        Button = (Button) findViewById(R.id.button);
+
         textView = (TextView) findViewById(R.id.textView);
+        button = (Button) findViewById(R.id.button);
         mDBHelper.openDataBase();
 
 
         //Пропишем обработчик клика кнопки
-        Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    SearchText = "53770";
-                    EditText einText = (EditText) findViewById(R.id.editText);
-                    SearchText = einText.getText().toString();
+            button.setOnClickListener(new View.OnClickListener() {
 
-                    Cursor cursor = mDb.rawQuery("SELECT * FROM objects WHERE Num_IVB=" + SearchText + " or Num_PPR1=" + SearchText + " or Num_PPR2=" + SearchText + " or Num_PPR3=" + SearchText + " or Num_TSP1=" + SearchText + " or Num_TSP2=" + SearchText + " or Num_TSP3=" + SearchText + " or Num_TSP4=" + SearchText + " or Num_TSP5=" + SearchText + ";", null);
-                    cursor.moveToFirst();
+                @Override
 
+                public void onClick(View v) {
+                    Log.d("brigadzir", "начали");
+                        EditText einText = (EditText) findViewById(R.id.editText);
+                        SearchText = einText.getText().toString();
+
+                    try {
+                    @SuppressLint("Recycle") Cursor cursor = mDb.rawQuery("SELECT * FROM objects WHERE Num_IVB='" +
+                            SearchText + "' or Num_PPR1='" +
+                            SearchText + "' or Num_PPR2='" +
+                            SearchText + "' or Num_PPR3='" +
+                            SearchText + "' or Num_TSP1='" +
+                            SearchText + "' or Num_TSP2='" +
+                            SearchText + "' or Num_TSP4='" +
+                            SearchText + "' or Num_TSP5='" +
+                            SearchText + "'", null, null);
+
+                        cursor.moveToFirst();
+                        Log.d("brigadzir", "извлекаем данные из курсора");
                     // извлекаем данные из курсора
                     String street = cursor.getString(2);
                     String ndom = cursor.getString(3);
@@ -91,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
                     String povtspgvs_f = cursor.getString(63);
                     String povtspot_s = cursor.getString(64);
                     String povtspot_f = cursor.getString(65);
+                    cursor.close();
+                        Log.d("brigadzir", "ГВС: "+tsp1gvs+" ОТ: "+tsp1ot);
                     textView.setText("ЖЭУ: " + jeu +
                             "\nАдрес: " + street + " " + ndom + " " + nkor + "" +
                             "\nТип учёта: " + sys + "" +
@@ -114,8 +129,13 @@ public class MainActivity extends AppCompatActivity {
                             "\nПОВ ТСП ГВС КОН: " + povtspgvs_f +
                             "\nПОВ ТСП ОТ НАЧ: " + povtspot_s +
                             "\nПОВ ТСП ОТ КОН: " + povtspot_f);
-                    } catch (Exception e) {};
+
+                    } catch (CursorIndexOutOfBoundsException e){}
                 }
-        });
+
+            });
     }
 }
+
+
+
