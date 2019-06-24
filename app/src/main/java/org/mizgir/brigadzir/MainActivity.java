@@ -1,6 +1,7 @@
 package org.mizgir.brigadzir;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.database.SQLException;
@@ -15,10 +16,11 @@ import android.widget.TextView;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //Объявим переменные компонентов
     Button button;
+    Button button2;
     TextView textView;
     EditText editText;
     String SearchText;
@@ -33,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        textView = findViewById(R.id.textView);
+        button = findViewById(R.id.button);
+
+        button2 = (Button) findViewById(R.id.button2);
+        button2.setOnClickListener(this);
+
         Log.d("brigadzir", "запуск");
         mDBHelper = new DatabaseHelper(this);
 
@@ -50,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Найдем компоненты в XML разметке
 
-        textView = (TextView) findViewById(R.id.textView);
-        button = (Button) findViewById(R.id.button);
         mDBHelper.openDataBase();
 
 
@@ -61,9 +68,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Log.d("brigadzir", "начали");
-                    EditText einText = (EditText) findViewById(R.id.editText);
+                    EditText einText = findViewById(R.id.editText);
                     SearchText = einText.getText().toString();
-
                     try {
                         @SuppressLint("Recycle") Cursor cursor = mDb.rawQuery("SELECT * FROM objects WHERE Num_IVB='" +
                                 SearchText + "' or Num_PPR1='" +
@@ -131,10 +137,23 @@ public class MainActivity extends AppCompatActivity {
 
                     } catch (CursorIndexOutOfBoundsException e) {
                     }
+
                 }
 
             });
 
+    }
+
+    //@Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button2:
+                Intent intent = new Intent(this, Tree.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
     }
 }
 
