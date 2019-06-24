@@ -27,8 +27,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     //Переменная для работы с БД
-    private DatabaseHelper mDBHelper;
+    private DBHelper mDBHelper;
     private SQLiteDatabase mDb;
+    Cursor crsr;
 
 
     @Override
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button2.setOnClickListener(this);
 
         Log.d("brigadzir", "запуск");
-        mDBHelper = new DatabaseHelper(this);
+        mDBHelper = new DBHelper(this);
 
         try {
             mDBHelper.updateDataBase();
@@ -71,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     EditText einText = findViewById(R.id.editText);
                     SearchText = einText.getText().toString();
                     try {
-                        @SuppressLint("Recycle") Cursor cursor = mDb.rawQuery("SELECT * FROM objects WHERE Num_IVB='" +
+                        //@SuppressLint("Recycle")
+                        crsr = mDb.rawQuery("SELECT * FROM objects WHERE Num_IVB='" +
                                 SearchText + "' or Num_PPR1='" +
                                 SearchText + "' or Num_PPR2='" +
                                 SearchText + "' or Num_PPR3='" +
@@ -81,35 +83,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 SearchText + "' or Num_TSP5='" +
                                 SearchText + "'", null, null);
 
-                        cursor.moveToFirst();
+                        crsr.moveToFirst();
                         Log.d("brigadzir", "извлекаем данные из курсора");
                         // извлекаем данные из курсора
-                        String street = cursor.getString(2);
-                        String ndom = cursor.getString(3);
-                        String nkor = cursor.getString(4);
-                        String jeu = cursor.getString(5);
-                        String sys = cursor.getString(6);
-                        String type = cursor.getString(13);
-                        String ivb = cursor.getString(18);
-                        String nppr1 = cursor.getString(20);
-                        String nppr2 = cursor.getString(21);
-                        String nppr3 = cursor.getString(22);
-                        String du1 = cursor.getString(23);
-                        String du2 = cursor.getString(24);
-                        String du3 = cursor.getString(25);
-                        String tsp1gvs = cursor.getString(28);
-                        String tsp2gvs = cursor.getString(29);
-                        String tsp1ot = cursor.getString(33);
-                        String tsp2ot = cursor.getString(34);
-                        String uchgvs = cursor.getString(39);
-                        String uchot = cursor.getString(41);
-                        String pov_s = cursor.getString(43);
-                        String pov_f = cursor.getString(44);
-                        String povtspgvs_s = cursor.getString(62);
-                        String povtspgvs_f = cursor.getString(63);
-                        String povtspot_s = cursor.getString(64);
-                        String povtspot_f = cursor.getString(65);
-                        cursor.close();
+                        String street = crsr.getString(2);
+                        String ndom = crsr.getString(3);
+                        String nkor = crsr.getString(4);
+                        String jeu = crsr.getString(5);
+                        String sys = crsr.getString(6);
+                        String type = crsr.getString(13);
+                        String ivb = crsr.getString(18);
+                        String nppr1 = crsr.getString(20);
+                        String nppr2 = crsr.getString(21);
+                        String nppr3 = crsr.getString(22);
+                        String du1 = crsr.getString(23);
+                        String du2 = crsr.getString(24);
+                        String du3 = crsr.getString(25);
+                        String tsp1gvs = crsr.getString(28);
+                        String tsp2gvs = crsr.getString(29);
+                        String tsp1ot = crsr.getString(33);
+                        String tsp2ot = crsr.getString(34);
+                        String uchgvs = crsr.getString(39);
+                        String uchot = crsr.getString(41);
+                        String pov_s = crsr.getString(43);
+                        String pov_f = crsr.getString(44);
+                        String povtspgvs_s = crsr.getString(62);
+                        String povtspgvs_f = crsr.getString(63);
+                        String povtspot_s = crsr.getString(64);
+                        String povtspot_f = crsr.getString(65);
+                        crsr.close();
                         Log.d("brigadzir", "ГВС: " + tsp1gvs + " ОТ: " + tsp1ot);
                         textView.setText("ЖЭУ: " + jeu +
                                 "\nАдрес: " + street + " " + ndom + " " + nkor + "" +
