@@ -31,7 +31,7 @@ public class Tree extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tree);
 
-        tvInfo = (TextView) findViewById(R.id.tvInfo);
+        //tvInfo = (TextView) findViewById(R.id.tvInfo);
 
         // создаем адаптер
         ah = new AdapterHelper(this);
@@ -47,7 +47,7 @@ public class Tree extends Activity {
                 Log.d(LOG_TAG, "onChildClick groupPosition = " + groupPosition +
                         " childPosition = " + childPosition +
                         " id = " + id);
-                tvInfo.setText(ah.getGroupChildText(groupPosition, childPosition));
+                //tvInfo.setText(ah.getGroupChildText(groupPosition, childPosition));
                 return false;
             }
         });
@@ -69,7 +69,7 @@ public class Tree extends Activity {
         elvMain.setOnGroupCollapseListener(new OnGroupCollapseListener() {
             public void onGroupCollapse(int groupPosition) {
                 Log.d(LOG_TAG, "onGroupCollapse groupPosition = " + groupPosition);
-                tvInfo.setText("Свернули " + ah.getGroupText(groupPosition));
+                //tvInfo.setText("Свернули " + ah.getGroupText(groupPosition));
             }
         });
 
@@ -77,7 +77,7 @@ public class Tree extends Activity {
         elvMain.setOnGroupExpandListener(new OnGroupExpandListener() {
             public void onGroupExpand(int groupPosition) {
                 Log.d(LOG_TAG, "onGroupExpand groupPosition = " + groupPosition);
-                tvInfo.setText("Развернули " + ah.getGroupText(groupPosition));
+                //tvInfo.setText("Развернули " + ah.getGroupText(groupPosition));
             }
         });
 

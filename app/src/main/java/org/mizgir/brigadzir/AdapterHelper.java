@@ -165,6 +165,7 @@ public class AdapterHelper {
         mDBHelper.openDataBase();
 //------------------------------------------------
         crsr = mDb.rawQuery("SELECT Adres_Doma, Num_Doma, Num_korp, Sistema, " +
+                "Marka_Pribor," +
                 "Num_IVB,  Data_Sled_Poverki_IVB, " +
                 "Num_PPR1, Num_PPR2, Data_Sled_Poverki_RSM, " +
                 "Num_TSP1, SL_POVERKA_TSP_GVS, " +
@@ -174,10 +175,11 @@ public class AdapterHelper {
         for (int i = 0; crsr.isAfterLast() == false; i++) {
 
             str[i] = (crsr.getString(0) + " " + crsr.getString(1) + " " + crsr.getString(2) + " " + crsr.getString(3)
-                    +"\n № ИВБ: "    +crsr.getString(4) +  " | ИВБ до: "    +crsr.getString(5)
-                    +"\n № РСМ: "    +crsr.getString(6) +  "-"+crsr.getString(7)+ " | РСМ до: "    +crsr.getString(8)
-                    +"\n № ТСП ГВС: "+crsr.getString(9) +  " | ТСП ГВС до: "+crsr.getString(10)
-                    +"\n № ТСП ОТ: " +crsr.getString(11) + " | ТСП ОТ до: " +crsr.getString(12));
+                    +"\nТип: "    +crsr.getString(4)
+                    +"\nИВБ: "    +crsr.getString(5) +  " до: "    +crsr.getString(6)
+                    +"\nРСМ-ППР: "    +crsr.getString(7) +  "-"+crsr.getString(8)+ " до: "    +crsr.getString(9)
+                    +"\nТСП ГВС: "+crsr.getString(10) +  " до: "+crsr.getString(11)
+                    +"\nТСП ОТ: " +crsr.getString(12) + " до: " +crsr.getString(13));
             crsr.moveToNext();
         }
         crsr.close();
