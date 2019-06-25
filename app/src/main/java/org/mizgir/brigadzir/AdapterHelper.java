@@ -136,13 +136,10 @@ public class AdapterHelper {
         mDBHelper.openDataBase();
 //------------------------------------------------
         crsr = mDb.rawQuery(GET_JEU_LIST, null, null);
-        //Log.d(LOG_TAG, "rows count = " + crsr.getCount());
-
         crsr.moveToFirst();
         String[] str = new String[crsr.getCount()];
         for (int i = 0; crsr.isAfterLast() == false; i++) {
 
-            // Log.d(LOG_TAG, "row = " + crsr.getString(0));
             str[i] = crsr.getString(0);
             crsr.moveToNext();
         }
@@ -167,20 +164,23 @@ public class AdapterHelper {
         }
         mDBHelper.openDataBase();
 //------------------------------------------------
-        crsr = mDb.rawQuery("SELECT Adres_Doma, Num_Doma, Num_korp, Sistema, Data_Sled_Poverki_IVB, Data_Sled_Poverki_RSM, SL_POVERKA_TSP_GVS, SL_POVERKA_TSP_OT FROM objects Where Num_Jeu='" + jeu + "' ORDER BY Adres_Doma, Num_Doma, Num_korp, Sistema;", null, null);
+        crsr = mDb.rawQuery("SELECT Adres_Doma, Num_Doma, Num_korp, Sistema, " +
+                "Num_IVB,  Data_Sled_Poverki_IVB, " +
+                "Num_PPR1, Num_PPR2, Data_Sled_Poverki_RSM, " +
+                "Num_TSP1, SL_POVERKA_TSP_GVS, " +
+                "Num_TSP4, SL_POVERKA_TSP_OT FROM objects Where Num_Jeu='" + jeu + "' ORDER BY Adres_Doma, Num_Doma, Num_korp, Sistema;", null, null);
         crsr.moveToFirst();
         String[] str = new String[crsr.getCount()];
         for (int i = 0; crsr.isAfterLast() == false; i++) {
 
-            str[i] = (crsr.getString(0) + " " + crsr.getString(1) + " " + crsr.getString(2) + " " + crsr.getString(3)+"" +
-                    "\n Поверка ИВБ: "+crsr.getString(4)+"\n Поверка РСМ: "+crsr.getString(5)+"\n Поверка ТСП ГВС: "+crsr.getString(6)+"\n Поверка ТСП ОТ: "+crsr.getString(7));
+            str[i] = (crsr.getString(0) + " " + crsr.getString(1) + " " + crsr.getString(2) + " " + crsr.getString(3)
+                    +"\n № ИВБ: "    +crsr.getString(4) +  " | ИВБ до: "    +crsr.getString(5)
+                    +"\n № РСМ: "    +crsr.getString(6) +  "-"+crsr.getString(7)+ " | РСМ до: "    +crsr.getString(8)
+                    +"\n № ТСП ГВС: "+crsr.getString(9) +  " | ТСП ГВС до: "+crsr.getString(10)
+                    +"\n № ТСП ОТ: " +crsr.getString(11) + " | ТСП ОТ до: " +crsr.getString(12));
             crsr.moveToNext();
         }
         crsr.close();
-//        for (int i = 0; i <str.length; i++) {
-//            if (str[i] == "null") str[i]=".";
-//        }
-
         return address = Arrays.copyOf(str, str.length);
 
     }
